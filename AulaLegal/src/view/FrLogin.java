@@ -5,6 +5,13 @@
  */
 package view;
 
+import Utils.Util;
+import com.sun.glass.events.KeyEvent;
+import controller.UsuarioController;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author aluno.saolucas
@@ -55,20 +62,28 @@ public class FrLogin extends javax.swing.JFrame {
         setTitle("Login");
         setLocation(new java.awt.Point(0, 0));
         setMaximizedBounds(new java.awt.Rectangle(0, 0, 0, 0));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         pnlPrincipal.setBackground(new java.awt.Color(255, 102, 102));
         pnlPrincipal.setAutoscrolls(true);
+        pnlPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblUsuario.setBackground(new java.awt.Color(255, 102, 102));
         lblUsuario.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         lblUsuario.setForeground(new java.awt.Color(0, 0, 0));
         lblUsuario.setText("Usuário");
         lblUsuario.setToolTipText("");
+        pnlPrincipal.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, -1, -1));
 
         lblSenha.setBackground(new java.awt.Color(255, 102, 102));
         lblSenha.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         lblSenha.setForeground(new java.awt.Color(0, 0, 0));
         lblSenha.setText("Senha");
+        pnlPrincipal.add(lblSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 210, -1, -1));
 
         edtSenha.setBackground(new java.awt.Color(255, 255, 255));
         edtSenha.addActionListener(new java.awt.event.ActionListener() {
@@ -76,9 +91,16 @@ public class FrLogin extends javax.swing.JFrame {
                 edtSenhaActionPerformed(evt);
             }
         });
+        edtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                edtSenhaKeyPressed(evt);
+            }
+        });
+        pnlPrincipal.add(edtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 299, -1));
 
         edtUsuario.setBackground(new java.awt.Color(255, 255, 255));
         edtUsuario.setForeground(new java.awt.Color(0, 0, 0));
+        pnlPrincipal.add(edtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 299, -1));
 
         btnEntrar.setBackground(new java.awt.Color(102, 255, 102));
         btnEntrar.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
@@ -95,53 +117,19 @@ public class FrLogin extends javax.swing.JFrame {
                 btnEntrarActionPerformed(evt);
             }
         });
+        pnlPrincipal.add(btnEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, -1, 50));
 
         lblLogin.setFont(new java.awt.Font("Courier New", 1, 24)); // NOI18N
         lblLogin.setForeground(new java.awt.Color(0, 0, 0));
         lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/2203549_admin_avatar_human_login_user_icon.png"))); // NOI18N
         lblLogin.setText("LOGIN");
-
-        javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
-        pnlPrincipal.setLayout(pnlPrincipalLayout);
-        pnlPrincipalLayout.setHorizontalGroup(
-            pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(edtSenha, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEntrar, javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lblSenha, javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(edtUsuario, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUsuario, javax.swing.GroupLayout.Alignment.CENTER))
-                .addContainerGap(46, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblLogin)
-                .addGap(138, 138, 138))
-        );
-        pnlPrincipalLayout.setVerticalGroup(
-            pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addContainerGap(75, Short.MAX_VALUE)
-                .addComponent(lblLogin)
-                .addGap(65, 65, 65)
-                .addComponent(lblUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(lblSenha)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
-                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65))
-        );
+        pnlPrincipal.add(lblLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,15 +151,50 @@ public class FrLogin extends javax.swing.JFrame {
         logar();
     }//GEN-LAST:event_btnEntrarMouseClicked
 
+    private void edtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtSenhaKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            logar();
+        }
+    }//GEN-LAST:event_edtSenhaKeyPressed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
+               // Define o icone da janela
+               this.setIconImage(Util.getIcone());
+    }//GEN-LAST:event_formWindowOpened
+
+    private boolean verificarCampos(){
+    if(edtUsuario.getText().isEmpty()){
+        JOptionPane.showMessageDialog(rootPane, "Usuário em branco");
+        return false;
+    }
+    if(new String(edtSenha.getPassword()).isEmpty()){
+        JOptionPane.showMessageDialog(rootPane, "Senha em branco");
+        return false;
+    }
+    return true;
+}
+    
+    
     private void logar(){
+
+        
         // Ler os campos
         String usuario = edtUsuario.getText();
         String senha = new String(edtSenha.getPassword());
         
-        // Guardar os dados
-        
         // Consultar no banco de dados
+        UsuarioController controller = new UsuarioController();
         
+        if(controller.autenticar(usuario,senha)){
+            // entra no sistema
+            FrMenu telaMenu = new FrMenu();
+            telaMenu.setVisible(true);
+            this.setVisible(false);
+        } else{
+            // mensagem de usuaro nao encontrado
+            JOptionPane.showMessageDialog(rootPane, "Usuário Não encontado");
+        }
         // Verificar se tem ou não aquele usuário 
         
     }
