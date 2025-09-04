@@ -163,6 +163,7 @@ public class FrLogin extends javax.swing.JFrame {
                this.setIconImage(Util.getIcone());
     }//GEN-LAST:event_formWindowOpened
 
+    
     private boolean verificarCampos(){
     if(edtUsuario.getText().isEmpty()){
         JOptionPane.showMessageDialog(rootPane, "Usuário em branco");

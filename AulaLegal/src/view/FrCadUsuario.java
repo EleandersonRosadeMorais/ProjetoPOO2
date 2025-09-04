@@ -5,6 +5,11 @@
  */
 package view;
 
+import Model.Usuario;
+import Utils.Util;
+import controller.UsuarioController;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author aluno.saolucas
@@ -38,64 +43,82 @@ public class FrCadUsuario extends javax.swing.JDialog {
         edtDataNasc = new javax.swing.JFormattedTextField();
         edtEmail = new javax.swing.JTextField();
         edtNome = new javax.swing.JTextField();
-        csAtivo = new javax.swing.JCheckBox();
+        chkAtivo = new javax.swing.JCheckBox();
         btnCancelar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
+        lblConfirmeSenha = new javax.swing.JLabel();
+        edtConfirmeSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Courier New", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Cadastro de Usuário");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 37, -1, -1));
 
         lblNome.setBackground(new java.awt.Color(0, 0, 0));
         lblNome.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         lblNome.setForeground(new java.awt.Color(0, 0, 0));
         lblNome.setText("Nome");
+        jPanel1.add(lblNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 111, -1, -1));
 
         lblEmail.setBackground(new java.awt.Color(0, 0, 0));
         lblEmail.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         lblEmail.setForeground(new java.awt.Color(0, 0, 0));
         lblEmail.setText("Email");
+        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 185, -1, -1));
 
         lblSenha.setBackground(new java.awt.Color(0, 0, 0));
         lblSenha.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         lblSenha.setForeground(new java.awt.Color(0, 0, 0));
         lblSenha.setText("Senha");
+        jPanel1.add(lblSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 259, -1, -1));
 
         lblDataNasc.setBackground(new java.awt.Color(0, 0, 0));
         lblDataNasc.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         lblDataNasc.setForeground(new java.awt.Color(0, 0, 0));
         lblDataNasc.setText("Data de Nascimento");
+        jPanel1.add(lblDataNasc, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 339, -1, -1));
 
         edtSenha.setBackground(new java.awt.Color(255, 255, 255));
         edtSenha.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
         edtSenha.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(edtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 286, 168, -1));
 
         edtDataNasc.setBackground(new java.awt.Color(255, 255, 255));
         edtDataNasc.setForeground(new java.awt.Color(0, 0, 0));
         edtDataNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
+        jPanel1.add(edtDataNasc, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 366, 408, 29));
 
         edtEmail.setBackground(new java.awt.Color(255, 255, 255));
         edtEmail.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
         edtEmail.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(edtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 212, 408, -1));
 
         edtNome.setBackground(new java.awt.Color(255, 255, 255));
         edtNome.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
         edtNome.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(edtNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 138, 408, -1));
 
-        csAtivo.setBackground(new java.awt.Color(255, 102, 102));
-        csAtivo.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
-        csAtivo.setForeground(new java.awt.Color(0, 0, 0));
-        csAtivo.setText("Ativo");
-        csAtivo.addActionListener(new java.awt.event.ActionListener() {
+        chkAtivo.setBackground(new java.awt.Color(255, 102, 102));
+        chkAtivo.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
+        chkAtivo.setForeground(new java.awt.Color(0, 0, 0));
+        chkAtivo.setText("Ativo");
+        chkAtivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                csAtivoActionPerformed(evt);
+                chkAtivoActionPerformed(evt);
             }
         });
+        jPanel1.add(chkAtivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 404, -1, -1));
 
         btnCancelar.setBackground(new java.awt.Color(255, 0, 0));
         btnCancelar.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
@@ -105,11 +128,17 @@ public class FrCadUsuario extends javax.swing.JDialog {
         btnCancelar.setMaximumSize(new java.awt.Dimension(100, 50));
         btnCancelar.setMinimumSize(new java.awt.Dimension(100, 50));
         btnCancelar.setPreferredSize(new java.awt.Dimension(150, 50));
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+        });
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 435, 175, -1));
 
         btnSalvar.setBackground(new java.awt.Color(0, 255, 0));
         btnSalvar.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
@@ -119,77 +148,28 @@ public class FrCadUsuario extends javax.swing.JDialog {
         btnSalvar.setMaximumSize(new java.awt.Dimension(100, 50));
         btnSalvar.setMinimumSize(new java.awt.Dimension(100, 50));
         btnSalvar.setPreferredSize(new java.awt.Dimension(150, 50));
+        btnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSalvarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(284, 435, 174, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(lblNome))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(lblEmail))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(lblSenha))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(lblDataNasc))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(211, 211, 211)
-                        .addComponent(csAtivo))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(edtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(59, 59, 59)
-                                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(edtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(edtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(50, 50, 50)
-                            .addComponent(edtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(32, 32, 32))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel1)
-                .addGap(33, 33, 33)
-                .addComponent(lblNome)
-                .addGap(6, 6, 6)
-                .addComponent(edtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblEmail)
-                .addGap(6, 6, 6)
-                .addComponent(edtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblSenha)
-                .addGap(6, 6, 6)
-                .addComponent(edtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(lblDataNasc)
-                .addGap(6, 6, 6)
-                .addComponent(edtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
-                .addComponent(csAtivo)
-                .addGap(6, 6, 6)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
+        lblConfirmeSenha.setBackground(new java.awt.Color(0, 0, 0));
+        lblConfirmeSenha.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
+        lblConfirmeSenha.setForeground(new java.awt.Color(0, 0, 0));
+        lblConfirmeSenha.setText("Repetir Senha");
+        jPanel1.add(lblConfirmeSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 260, -1, -1));
+
+        edtConfirmeSenha.setBackground(new java.awt.Color(255, 255, 255));
+        edtConfirmeSenha.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
+        edtConfirmeSenha.setForeground(new java.awt.Color(0, 0, 0));
+        edtConfirmeSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edtConfirmeSenhaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(edtConfirmeSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 287, 168, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -205,13 +185,101 @@ public class FrCadUsuario extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void csAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csAtivoActionPerformed
+    private void chkAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAtivoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_csAtivoActionPerformed
+    }//GEN-LAST:event_chkAtivoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarMouseClicked
+
+    private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
+        gravar();
+    }//GEN-LAST:event_btnSalvarMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // Define o icone da janela
+        this.setIconImage(Util.getIcone());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void edtConfirmeSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtConfirmeSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtConfirmeSenhaActionPerformed
+
+    private void gravar() {
+        //validar o preenchimento dos campos
+        if (!verificarCampos()) {
+            return;
+        }
+        //ler os campos e guardar um objeto
+        Usuario usu = new Usuario();
+        usu.setNome(edtNome.getText());
+        usu.setEmail(edtEmail.getText());
+        usu.setSenha(Util.calcularHash(new String(edtSenha.getPassword())));
+        usu.setDataNascimento(Util.converterStringToDate(edtDataNasc.getText()));
+        usu.setAtivo(chkAtivo.isSelected());
+        // enviar para o banco de dados
+        
+        UsuarioController controller = new UsuarioController();
+        if(controller.inserir(usu)){
+            JOptionPane.showMessageDialog(null, "Usuário inserido");
+            this.dispose();
+        }
+        
+    }
+
+    private boolean verificarCampos() {
+        if (edtNome.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo 'Nome' em branco");
+            return false;
+        }
+
+        if (edtEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo 'E-mail' em branco");
+            return false;
+        }
+        if (new String(edtSenha.getPassword()).isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo 'Senha' em branco)");
+            return false;
+        }
+        //^ - inicio de linha
+        //$ - final de linha
+        //[] - conjunto de caracteres
+        //+ - quantidade de vezes que o conjunto pode aparecer
+        //+ - 1 ou mais vezes
+        //* - 0 ou mais vezes
+        //{5} - 5 vezes
+        //{2} - 2 vezes
+        if (!edtNome.getText().matches("^[\\p{L} ]+$")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Nome' possui formato inválido");
+            return false;
+        }
+        if (!edtEmail.getText().matches("^[a-z0-9_.]+@[a-z0-9_.]+.[a-z]+$")) {
+            JOptionPane.showMessageDialog(null, "O campo 'Email' possui formato inválido");
+            return false;
+        }
+        if (!edtDataNasc.getText().matches("^[0-3]{1}[0-9]{1}/[0-1]{1}[0-9]{1}/[12]{1}[90]{1}[0-9]{1}[0-9]{1}$")) {
+            JOptionPane.showMessageDialog(null, "O campo Data de Nascimento possui formato inválido");
+            return false;
+        }
+        if (new String(edtSenha.getPassword()).length() < 6) {
+            JOptionPane.showMessageDialog(null, "Senha deve ser maior que 6 digitos");
+            return false;
+        }
+
+        String senha = new String(edtSenha.getPassword());
+        String confirmaSenha = new String(edtConfirmeSenha.getPassword());
+        if (!senha.equals(confirmaSenha)) {
+            JOptionPane.showMessageDialog(null, "As senhas devem ser iguais e coerentes");
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * @param args the command line arguments
@@ -258,13 +326,15 @@ public class FrCadUsuario extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JCheckBox csAtivo;
+    private javax.swing.JCheckBox chkAtivo;
+    private javax.swing.JPasswordField edtConfirmeSenha;
     private javax.swing.JFormattedTextField edtDataNasc;
     private javax.swing.JTextField edtEmail;
     private javax.swing.JTextField edtNome;
     private javax.swing.JPasswordField edtSenha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblConfirmeSenha;
     private javax.swing.JLabel lblDataNasc;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblNome;
