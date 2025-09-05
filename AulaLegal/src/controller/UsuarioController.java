@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -119,4 +120,72 @@ public boolean inserir(Usuario usu){
     
 }    
 
+public List<Usuario> consultar(int opcaoFiltro, String filtro){
+    // montar o comando a ser executado
+    //os ? sao variaveis que sao preenchidas mais adiante
+    String sql =  "SELECT * from tbusuario WHERE ";
+    
+    if(opcaoFiltro == 0){
+        sql += " pkusuario = " + filtro;
+    } else if (opcaoFiltro == 1){
+        sql += " nome like '%" + filtro + "%'";
+    } else if (opcaoFiltro == 2){
+        sql += " email like '%" + filtro + "%'";
+    } else if (opcaoFiltro == 3){
+        sql += " ativo = 1";
+    }
+
+    // Crie uma instancia do gerenciador de conexao
+    // conexao com o banco de dados
+    
+    GerenciadorConexao gerenciador = new GerenciadorConexao();
+    
+    //declara as variaveis como nulas antes do try
+    //para poder usar o finally
+    PreparedStatement comando = null;
+    ResultSet resultado = null;
+    //Crio a lista de usuarios, vazia ainda...
+    List<Usuario> lista = new ArrayList<>();
+    
+    
+    try{
+        // prepara o sql, analisando o formato e as variaveis
+        comando = gerenciador.prepararComando(sql);
+       
+        
+        // define o valor de cada variavel(?) pela posicao em que aparece no sql
+
+        
+        //executa o comando e guarda o resultado da consulta
+        // o resultado e semelhante a uma grade
+        resultado = comando.executeQuery();
+
+        while(resultado.next()){
+            Usuario usu = new Usuario();
+            
+            usu.setPkUsuario(resultado.getInt("pkusuario"));
+            usu.setNome(resultado.getString("nome"));
+            usu.setEmail(resultado.getString("email"));
+            usu.setSenha(resultado.getString("senha"));
+            usu.setDataNascimento(resultado.getDate("datanasc"));
+            usu.setAtivo(resultado.getBoolean("ativo"));
+            // Adiciona todos os dados acima na determinada linha da tabela no banco de dados
+            lista.add(usu);
+        }
+        
+        
+    } catch (SQLException e) {
+        // caso ocorra um erro relacionado ao banco de dados
+        // exibe popup com o erro
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+    
+    finally {
+        //depois de executar o try, dando erro ou nao executa o finally
+        gerenciador.fecharConexao(comando, resultado);
+    }
+    return lista;
+}    
+
 }
+

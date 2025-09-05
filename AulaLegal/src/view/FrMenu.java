@@ -126,6 +126,11 @@ public class FrMenu extends javax.swing.JFrame {
         miConUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         miConUsuarios.setForeground(new java.awt.Color(0, 0, 0));
         miConUsuarios.setText("Usuários");
+        miConUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miConUsuariosActionPerformed(evt);
+            }
+        });
         mnConsultar.add(miConUsuarios);
 
         jMenuItem3.setBackground(new java.awt.Color(255, 255, 255));
@@ -170,6 +175,11 @@ public class FrMenu extends javax.swing.JFrame {
                // Define o icone da janela
                this.setIconImage(Util.getIcone());
     }//GEN-LAST:event_formWindowOpened
+
+    private void miConUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConUsuariosActionPerformed
+        FrConUsuario telaConUsuario = new FrConUsuario(this, rootPaneCheckingEnabled);
+        telaConUsuario.setVisible(true);
+    }//GEN-LAST:event_miConUsuariosActionPerformed
 
     /**
      * @param args the command line arguments
