@@ -132,7 +132,7 @@ public List<Usuario> consultar(int opcaoFiltro, String filtro){
     } else if (opcaoFiltro == 2){
         sql += " email like '%" + filtro + "%'";
     } else if (opcaoFiltro == 3){
-        sql += " ativo = 1";
+        sql += " ativo = " + filtro;
     }
 
     // Crie uma instancia do gerenciador de conexao
