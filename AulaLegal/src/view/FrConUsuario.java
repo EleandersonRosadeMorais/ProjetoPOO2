@@ -7,6 +7,7 @@ package view;
 
 import Model.Usuario;
 import Utils.Util;
+import com.sun.glass.events.KeyEvent;
 import controller.UsuarioController;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
@@ -43,9 +44,15 @@ public class FrConUsuario extends javax.swing.JDialog {
         tblUsuarios = new javax.swing.JTable();
         edtFiltro = new javax.swing.JTextField();
         cbxFiltro = new javax.swing.JComboBox<>();
+        btnAlterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consulta de Usuários");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlPrincipal.setBackground(new java.awt.Color(255, 102, 102));
@@ -107,6 +114,11 @@ public class FrConUsuario extends javax.swing.JDialog {
                 edtFiltroActionPerformed(evt);
             }
         });
+        edtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                edtFiltroKeyPressed(evt);
+            }
+        });
         pnlPrincipal.add(edtFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 150, 30));
 
         cbxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Código igual a", "Nome contendo", "E-mail contendo", "Usuários Ativos" }));
@@ -116,6 +128,19 @@ public class FrConUsuario extends javax.swing.JDialog {
             }
         });
         pnlPrincipal.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 150, 30));
+
+        btnAlterar.setText("Alterar");
+        btnAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlterarMouseClicked(evt);
+            }
+        });
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
+        pnlPrincipal.add(btnAlterar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 440, -1, -1));
 
         getContentPane().add(pnlPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 500));
 
@@ -138,6 +163,37 @@ public class FrConUsuario extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxFiltroActionPerformed
 
+    private void edtFiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtFiltroKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            pesquisar();
+        }
+    }//GEN-LAST:event_edtFiltroKeyPressed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.setIconImage(Util.getIcone());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMouseClicked
+        // valido se tem alguma linha selecionada na grade = -1
+        if (tblUsuarios.getSelectedRow() == -1) {
+            return;
+        }
+        // pego o numero da linha selecionada
+        int posicaoLinha = tblUsuarios.getSelectedRow();
+        // pegar o valor da celular na grade, na coluna 0(código)
+        String celula = tblUsuarios.getValueAt(posicaoLinha, 0).toString();
+        int pkUsuario = Integer.parseInt(celula);
+        // Aparecera a tela e selecionar corretamente o usuario selecionado com mouse
+        FrAltUsuario telaAlterar = new FrAltUsuario(null, rootPaneCheckingEnabled);
+        telaAlterar.setPkUsuario(pkUsuario);
+        telaAlterar.setVisible(true);
+
+    }//GEN-LAST:event_btnAlterarMouseClicked
+
     private void pesquisar() {
         // Pega o modelo de grade com suuas colunas
         DefaultTableModel modeloTabela = (DefaultTableModel) tblUsuarios.getModel();
@@ -151,8 +207,7 @@ public class FrConUsuario extends javax.swing.JDialog {
         //3 - usuários ativos
         int opcaoFiltro = cbxFiltro.getSelectedIndex();
         String filtro = edtFiltro.getText();
-        
-        
+
         // consultar o banco de dados
         UsuarioController controller = new UsuarioController();
         // Criando uma lista consultada
@@ -169,8 +224,6 @@ public class FrConUsuario extends javax.swing.JDialog {
             };
             modeloTabela.addRow(linha);
         }
-        
-        
 
     }
 
@@ -217,6 +270,7 @@ public class FrConUsuario extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JComboBox<String> cbxFiltro;

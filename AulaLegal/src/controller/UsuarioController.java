@@ -1,4 +1,3 @@
-
 package controller;
 
 import Model.Usuario;
@@ -18,174 +17,216 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 // Import model.Usuario;
 // import utils.Utils;
+
 /**
-*
-* @author iband
-*/
-
+ *
+ * @author iband
+ */
 public class UsuarioController {
-    
-public boolean autenticar(String usuario, String senha){
-    // montar o comando a ser executado
-    //os ? sao variaveis que sao preenchidas mais adiante
-    String sql = "SELECT * from TBUSUARIO " + 
-            " WHERE email = ? and senha = ? " + 
-            " and ativo = true";
-    
-    // Crie uma instancia do gerenciador de conexao
-    // conexao com o banco de dados
-    
-    GerenciadorConexao gerenciador = new GerenciadorConexao();
-    
-    //declara as variaveis como nulas antes do try
-    //para poder usar o finally
-    PreparedStatement comando = null;
-    ResultSet resultado = null;
-    
-    try{
-        // prepara o sql, analisando o formato e as variaveis
-        comando = gerenciador.prepararComando(sql);
-       
-        
-        // define o valor de cada variavel(?) pela posicao em que aparece no sql
-        comando.setString(1, usuario);
-        comando.setString(2, senha);
-        
-        //executa o comando e guarda o resultado da consulta
-        // o resultado e semelhante a uma grade
-        resultado = comando.executeQuery();
-        
-        // resultado.next() tenta avancar para a proxima linha
-        // caso consiga retorna true
-        if(resultado.next()){
-            // se conseguir avancar para a proxima linha e porque acha um usuario
+
+    public boolean autenticar(String usuario, String senha) {
+        // montar o comando a ser executado
+        //os ? sao variaveis que sao preenchidas mais adiante
+        String sql = "SELECT * from TBUSUARIO "
+                + " WHERE email = ? and senha = ? "
+                + " and ativo = true";
+
+        // Crie uma instancia do gerenciador de conexao
+        // conexao com o banco de dados
+        GerenciadorConexao gerenciador = new GerenciadorConexao();
+
+        //declara as variaveis como nulas antes do try
+        //para poder usar o finally
+        PreparedStatement comando = null;
+        ResultSet resultado = null;
+
+        try {
+            // prepara o sql, analisando o formato e as variaveis
+            comando = gerenciador.prepararComando(sql);
+
+            // define o valor de cada variavel(?) pela posicao em que aparece no sql
+            comando.setString(1, usuario);
+            comando.setString(2, senha);
+
+            //executa o comando e guarda o resultado da consulta
+            // o resultado e semelhante a uma grade
+            resultado = comando.executeQuery();
+
+            // resultado.next() tenta avancar para a proxima linha
+            // caso consiga retorna true
+            if (resultado.next()) {
+                // se conseguir avancar para a proxima linha e porque acha um usuario
+                return true;
+            }
+
+        } catch (SQLException e) {
+            // caso ocorra um erro relacionado ao banco de dados
+            // exibe popup com o erro
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            //depois de executar o try, dando erro ou nao executa o finally
+            gerenciador.fecharConexao(comando, resultado);
+        }
+        return false;
+
+    }
+
+    public boolean inserir(Usuario usu) {
+
+        String sql = "INSERT INTO TBUSUARIO (nome, email, senha, datanasc, ativo) values (?, ?, ?, ?, ?);";
+
+        // Crie uma instancia do gerenciador de conexao
+        // conexao com o banco de dados
+        GerenciadorConexao gerenciador = new GerenciadorConexao();
+
+        //declara as variaveis como nulas antes do try
+        //para poder usar o finally
+        PreparedStatement comando = null;
+
+        try {
+            // prepara o sql, analisando o formato e as variaveis
+            comando = gerenciador.prepararComando(sql);
+
+            // define o valor de cada variavel(?) pela posicao em que aparece no sql
+            comando.setString(1, usu.getNome());
+            comando.setString(2, usu.getEmail());
+            comando.setString(3, usu.getSenha());
+            comando.setDate(4, new java.sql.Date(usu.getDataNascimento().getTime()));
+            comando.setBoolean(5, usu.isAtivo());
+
+            // executa o comando
+            comando.executeUpdate();
+
             return true;
+        } catch (SQLException e) {
+            // caso ocorra um erro relacionado ao banco de dados
+            // exibe popup com o erro
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            //depois de executar o try, dando erro ou nao executa o finally
+            gerenciador.fecharConexao(comando);
         }
-        
-    } catch (SQLException e) {
-        // caso ocorra um erro relacionado ao banco de dados
-        // exibe popup com o erro
-        JOptionPane.showMessageDialog(null, e.getMessage());
-    }
-    
-    finally {
-        //depois de executar o try, dando erro ou nao executa o finally
-        gerenciador.fecharConexao(comando, resultado);
-    }
-    return false;
-    
-}    
+        return false;
 
-   
-public boolean inserir(Usuario usu){
-   
-    String sql = "INSERT INTO TBUSUARIO (nome, email, senha, datanasc, ativo) values (?, ?, ?, ?, ?);";
-    
-    // Crie uma instancia do gerenciador de conexao
-    // conexao com o banco de dados
-    
-    GerenciadorConexao gerenciador = new GerenciadorConexao();
-    
-    //declara as variaveis como nulas antes do try
-    //para poder usar o finally
-    PreparedStatement comando = null;
-    
-    try{
-        // prepara o sql, analisando o formato e as variaveis
-        comando = gerenciador.prepararComando(sql);
-       
-        
-        // define o valor de cada variavel(?) pela posicao em que aparece no sql
-        comando.setString(1, usu.getNome());
-        comando.setString(2, usu.getEmail());
-        comando.setString(3, usu.getSenha());
-        comando.setDate(4, new java.sql.Date(usu.getDataNascimento().getTime()));
-        comando.setBoolean(5, usu.isAtivo());
-
-        // executa o comando
-        comando.executeUpdate();
-        
-        return true;
-    } catch (SQLException e) {
-        // caso ocorra um erro relacionado ao banco de dados
-        // exibe popup com o erro
-        JOptionPane.showMessageDialog(null, e.getMessage());
-    }
-    
-    finally {
-        //depois de executar o try, dando erro ou nao executa o finally
-        gerenciador.fecharConexao(comando);
-    }
-    return false;
-    
-}    
-
-public List<Usuario> consultar(int opcaoFiltro, String filtro){
-    // montar o comando a ser executado
-    //os ? sao variaveis que sao preenchidas mais adiante
-    String sql =  "SELECT * from tbusuario WHERE ";
-    
-    if(opcaoFiltro == 0){
-        sql += " pkusuario = " + filtro;
-    } else if (opcaoFiltro == 1){
-        sql += " nome like '%" + filtro + "%'";
-    } else if (opcaoFiltro == 2){
-        sql += " email like '%" + filtro + "%'";
-    } else if (opcaoFiltro == 3){
-        sql += " ativo = " + filtro;
     }
 
-    // Crie uma instancia do gerenciador de conexao
-    // conexao com o banco de dados
-    
-    GerenciadorConexao gerenciador = new GerenciadorConexao();
-    
-    //declara as variaveis como nulas antes do try
-    //para poder usar o finally
-    PreparedStatement comando = null;
-    ResultSet resultado = null;
-    //Crio a lista de usuarios, vazia ainda...
-    List<Usuario> lista = new ArrayList<>();
-    
-    
-    try{
-        // prepara o sql, analisando o formato e as variaveis
-        comando = gerenciador.prepararComando(sql);
-       
-        
-        // define o valor de cada variavel(?) pela posicao em que aparece no sql
+    public List<Usuario> consultar(int opcaoFiltro, String filtro) {
+        // montar o comando a ser executado
+        //os ? sao variaveis que sao preenchidas mais adiante
+        String sql = "SELECT * from tbusuario ";
 
-        
-        //executa o comando e guarda o resultado da consulta
-        // o resultado e semelhante a uma grade
-        resultado = comando.executeQuery();
+        switch (opcaoFiltro) {
+            case 0:
+                sql += "WHERE  pkusuario = " + filtro;
+                break;
+            case 1:
+                sql += "WHERE  nome like '%" + filtro + "%'";
+                break;
+            case 2:
+                sql += "WHERE  email like '%" + filtro + "%'";
+                break;
+            case 3:
+                sql += "WHERE  ativo = 1";
+                break;
+            default:
+                break;
+        }
+        if (filtro.isEmpty()) {
+            sql = "SELECT * from tbusuario ";
+        }
 
-        while(resultado.next()){
-            Usuario usu = new Usuario();
+        // Crie uma instancia do gerenciador de conexao
+        // conexao com o banco de dados
+        GerenciadorConexao gerenciador = new GerenciadorConexao();
+
+        //declara as variaveis como nulas antes do try
+        //para poder usar o finally
+        PreparedStatement comando = null;
+        ResultSet resultado = null;
+        //Crio a lista de usuarios, vazia ainda...
+        List<Usuario> lista = new ArrayList<>();
+
+        try {
+            // prepara o sql, analisando o formato e as variaveis
+            comando = gerenciador.prepararComando(sql);
+
+            // define o valor de cada variavel(?) pela posicao em que aparece no sql
+            //executa o comando e guarda o resultado da consulta
+            // o resultado e semelhante a uma grade
+            resultado = comando.executeQuery();
+
+            while (resultado.next()) {
+                Usuario usu = new Usuario();
+
+                usu.setPkUsuario(resultado.getInt("pkusuario"));
+                usu.setNome(resultado.getString("nome"));
+                usu.setEmail(resultado.getString("email"));
+                usu.setSenha(resultado.getString("senha"));
+                usu.setDataNascimento(resultado.getDate("datanasc"));
+                usu.setAtivo(resultado.getBoolean("ativo"));
+                // Adiciona todos os dados acima na determinada linha da tabela no banco de dados
+                lista.add(usu);
+            }
+
+        } catch (SQLException e) {
+            // caso ocorra um erro relacionado ao banco de dados
+            // exibe popup com o erro
+
+            JOptionPane.showMessageDialog(null, "Você não possui essa combinação de palavras ' " + filtro + " ' no seu banco de dados");
+        } finally {
+            //depois de executar o try, dando erro ou nao executa o finally
+            gerenciador.fecharConexao(comando, resultado);
+        }
+        return lista;
+    }
+
+    public boolean alterar(Usuario usu) {
+
+        String sql = "UPDATE TBUSUARIO SET nome = ?, email = ?, datanasc = ?, ativo = ?";
+        if (usu.getSenha() != null) {
+            sql += ", senha = ?";
+        }
+        sql += " WHERE pkusuario = ?";
+
+        // Crie uma instancia do gerenciador de conexao
+        // conexao com o banco de dados
+        GerenciadorConexao gerenciador = new GerenciadorConexao();
+
+        //declara as variaveis como nulas antes do try
+        //para poder usar o finally
+        PreparedStatement comando = null;
+
+        try {
+            // prepara o sql, analisando o formato e as variaveis
+            comando = gerenciador.prepararComando(sql);
+
+            // define o valor de cada variavel(?) pela posicao em que aparece no sql
+            comando.setString(1, usu.getNome());
+            comando.setString(2, usu.getEmail());
+            comando.setDate(3, new java.sql.Date(usu.getDataNascimento().getTime()));
+            comando.setBoolean(4, usu.isAtivo());
+            if (usu.getSenha() != null) {
+                comando.setString(5, usu.getSenha());
+                comando.setInt(6, usu.getPkUsuario());
+            } else {
+                comando.setInt(5, usu.getPkUsuario());
+            }
             
-            usu.setPkUsuario(resultado.getInt("pkusuario"));
-            usu.setNome(resultado.getString("nome"));
-            usu.setEmail(resultado.getString("email"));
-            usu.setSenha(resultado.getString("senha"));
-            usu.setDataNascimento(resultado.getDate("datanasc"));
-            usu.setAtivo(resultado.getBoolean("ativo"));
-            // Adiciona todos os dados acima na determinada linha da tabela no banco de dados
-            lista.add(usu);
+
+            // executa o comando
+            comando.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            // caso ocorra um erro relacionado ao banco de dados
+            // exibe popup com o erro
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            //depois de executar o try, dando erro ou nao executa o finally
+            gerenciador.fecharConexao(comando);
         }
-        
-        
-    } catch (SQLException e) {
-        // caso ocorra um erro relacionado ao banco de dados
-        // exibe popup com o erro
-        JOptionPane.showMessageDialog(null, e.getMessage());
+        return false;
+
     }
-    
-    finally {
-        //depois de executar o try, dando erro ou nao executa o finally
-        gerenciador.fecharConexao(comando, resultado);
-    }
-    return lista;
-}    
 
 }
-
